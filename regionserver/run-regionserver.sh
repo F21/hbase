@@ -66,4 +66,4 @@ done
 
 echo "Starting hbase regionserver..."
 
-gosu hbase /opt/hbase/bin/hbase --config /opt/hbase/conf regionserver start
+exec gosu hbase /opt/hbase/bin/hbase --config /opt/hbase/conf regionserver start

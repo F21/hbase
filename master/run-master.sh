@@ -74,4 +74,4 @@ fi
 
 echo "Starting hbase master..."
 
-gosu hbase /opt/hbase/bin/hbase --config /opt/hbase/conf master start
+exec gosu hbase /opt/hbase/bin/hbase --config /opt/hbase/conf master start
