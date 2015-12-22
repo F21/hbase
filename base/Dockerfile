@@ -5,11 +5,6 @@ MAINTAINER Francis Chuang <francis.chuang@boostport.com>
 
 ENV HBASE_VER 1.1.2
 
-RUN arch="$(dpkg --print-architecture)" \
-	&& set -x \
-	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-$arch" \
-	&& chmod +x /usr/local/bin/gosu
-
 RUN apt-get update \
     && apt-get install --no-install-recommends -y wget xmlstarlet hadoop-client \
     && mkdir -p /opt/hbase \
