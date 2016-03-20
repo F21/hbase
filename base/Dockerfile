@@ -3,7 +3,7 @@
 FROM f21global/hadoop-base:2.7.1
 MAINTAINER Francis Chuang <francis.chuang@boostport.com>
 
-ENV HBASE_VER 1.1.2
+ENV HBASE_VER 1.1.3
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y wget xmlstarlet hadoop-client \
