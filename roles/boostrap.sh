@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-CORE_SITE="/etc/hadoop/conf/core-site.xml"
-HDFS_SITE="/etc/hadoop/conf/hdfs-site.xml"
-HBASE_SITE="/opt/hbase/conf/hbase-site.xml"
-
 addConfig () {
 
     if [ $# -ne 3 ]; then
@@ -19,8 +15,9 @@ addConfig () {
      $1
 }
 
-ln -s $CORE_SITE /opt/hbase/conf/core-site.xml
-ln -s $HDFS_SITE /opt/hbase/conf/hdfs-site.xml
+CORE_SITE="/opt/hbase/conf/core-site.xml"
+HDFS_SITE="/opt/hbase/conf/hdfs-site.xml"
+HBASE_SITE="/opt/hbase/conf/hbase-site.xml"
 
 # Update hbase-site.xml
 : ${CLUSTER_NAME:?"CLUSTER_NAME is required."}
@@ -54,24 +51,12 @@ addConfig $HDFS_SITE "dfs.namenode.http-address.${HDFS_CLUSTER_NAME}.nn2" $DFS_N
 addConfig $HDFS_SITE "dfs.client.failover.proxy.provider.${HDFS_CLUSTER_NAME}" "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
 
 # Wait for hdfs cluster to be ready
-until hdfs dfs -ls /; do
+until java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -ls "hdfs://${HDFS_CLUSTER_NAME}/"; do
     echo "Waiting for hdfs to be available..."
     sleep 2
 done
 
-until hdfs dfsadmin -safemode wait; do
+until java -jar /opt/hadoop/hdfs-dfsadmin.jar -Dfs.defaultFS=hdfs://$HDFS_CLUSTER_NAME -conf $HBASE_CONF_DIR/hdfs-site.xml -safemode wait; do
     echo "Waiting for hdfs to leave safemode"
     sleep 2
 done
-
-# Create directory in hdfs if it doesn't exist
-hadoop fs -test -d "/${CLUSTER_NAME}"
-
-if [ $? != 0 ]; then
-    gosu hdfs hadoop fs -mkdir "/${CLUSTER_NAME}"
-    gosu hdfs hadoop fs -chown hbase "/${CLUSTER_NAME}"
-fi
-
-echo "Starting hbase master..."
-
-exec gosu hbase /opt/hbase/bin/hbase --config /opt/hbase/conf master start
