@@ -44,7 +44,8 @@ RUN apk --no-cache --update add bash ca-certificates gnupg openssl su-exec tar \
 \
 # Set up permissions
  && addgroup -S hadoop \
- && adduser -h /opt/hbase -G hadoop -S -D -H -s /bin/false -g hadoop hbase \
+ && adduser -h /opt/hbase -G hadoop -S -D -H -s /bin/false -g hbase hbase \
+ && adduser -h /opt/hadoop -G hadoop -S -D -H -s /bin/false -g hadoop hadoop \
  && chown -R hbase:hadoop /opt/hbase \
  && chown -R hbase:hadoop /opt/hadoop \
 \

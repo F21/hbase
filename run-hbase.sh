@@ -6,11 +6,11 @@ source roles/boostrap.sh
 
 if [[ ${HBASE_ROLE,,} = master ]]; then
     # Create directory in hdfs if it doesn't exist
-    java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -test -d "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
+    su-exec hadoop java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -test -d "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
 
     if [ $? != 0 ]; then
-        java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -mkdir "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
-        java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -chown hbase:hadoop "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
+        su-exec hadoop java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -mkdir "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
+        su-exec hadoop java -jar /opt/hadoop/hdfs-fs.jar -conf $HBASE_CONF_DIR/hdfs-site.xml -chown hbase "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
     fi
 
     echo "Starting hbase master..."
