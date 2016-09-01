@@ -44,9 +44,9 @@ RUN apk --no-cache --update add bash ca-certificates gnupg openssl su-exec tar \
 \
 # Set up permissions
  && addgroup -S hadoop \
- && adduser -h /opt/hbase -G hadoop -S -D -H -s /bin/false -g hadoop hadoop \
- && chown -R hadoop:hadoop /opt/hbase \
- && chown -R hadoop:hadoop /opt/hadoop \
+ && adduser -h /opt/hbase -G hadoop -S -D -H -s /bin/false -g hadoop hbase \
+ && chown -R hbase:hadoop /opt/hbase \
+ && chown -R hbase:hadoop /opt/hadoop \
 \
 # Clean up
  && apk del gnupg maven openssl tar \
