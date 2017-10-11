@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 MAINTAINER Francis Chuang <francis.chuang@boostport.com>
 
-ENV HBASE_VERSION=1.2.4 HBASE_CONF_DIR=/opt/hbase/conf
+ENV HBASE_VERSION=1.3.1 HBASE_CONF_DIR=/opt/hbase/conf
 
 COPY hadoop-tools /tmp/hadoop-tools
 COPY hadoop-config /opt/hbase/conf
