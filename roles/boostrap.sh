@@ -25,6 +25,8 @@ HBASE_SITE="/opt/hbase/conf/hbase-site.xml"
 addConfig $HBASE_SITE "hbase.rootdir" "hdfs://${HDFS_CLUSTER_NAME}/${CLUSTER_NAME}"
 addConfig $HBASE_SITE "zookeeper.znode.parent" /$CLUSTER_NAME
 addConfig $HBASE_SITE "hbase.cluster.distributed" "true"
+addConfig $HBASE_SITE "hbase.regionserver.thrift.framed" "true"
+addConfig $HBASE_SITE "hbase.regionserver.thrift.compact" "true"
 
 : ${HBASE_ZOOKEEPER_QUORUM:?"HBASE_ZOOKEEPER_QUORUM is required."}
 addConfig $HBASE_SITE "hbase.zookeeper.quorum" $HBASE_ZOOKEEPER_QUORUM
